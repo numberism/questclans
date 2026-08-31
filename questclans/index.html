@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>quest clans</title>
+<style>
+:root{
+  --bg:#000000;
+  --surface-1:#1c1c1e;
+  --surface-2:#2c2c2e;
+  --surface-3:#3a3a3c;
+  --border:#38383a;
+  --text-primary:#f5f5f7;
+  --text-secondary:#98989d;
+  --text-tertiary:#636366;
+  --danger:#ff453a;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  color:var(--text-primary);
+  padding:48px 20px 64px;
+  display:flex;
+  justify-content:center;
+  text-transform:lowercase;
+}
+
+.wrap{ width:100%; max-width:760px; position:relative; }
+
+.sound-toggle{
+  position:absolute;
+  top:0;
+  right:0;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface-1);
+  color:var(--text-secondary);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .15s ease, color .15s ease;
+}
+.sound-toggle:hover{ background:var(--surface-2); }
+.sound-toggle svg{ width:16px; height:16px; }
+.sound-toggle.muted{ color:var(--text-tertiary); }
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.08em;
+  color:var(--text-tertiary);
+  text-align:center;
+  margin:0 0 6px;
+  font-weight:600;
+}
+
+h1{
+  font-size:30px;
+  font-weight:700;
+  text-align:center;
+  margin:0 0 8px;
+  color:var(--text-primary);
+  letter-spacing:-0.01em;
+}
+
+.tagline{
+  text-align:center;
+  color:var(--text-secondary);
+  font-size:15px;
+  margin:0 0 32px;
+}
+
+.mode-tabs{
+  display:flex;
+  gap:2px;
+  margin-bottom:24px;
+  background:var(--surface-1);
+  border-radius:10px;
+  padding:2px;
+}
+.mode-tab{
+  flex:1;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  padding:9px 8px;
+  background:transparent;
+  color:var(--text-secondary);
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+  text-transform:lowercase;
+}
+.mode-tab.active{
+  background:var(--surface-3);
+  color:var(--text-primary);
+}
+
+.countdown-box{
+  text-align:center;
+  margin-bottom:18px;
+}
+.countdown-label{
+  font-size:11px;
+  letter-spacing:.06em;
+  color:var(--text-tertiary);
+  margin:0 0 4px;
+  font-weight:600;
+}
+.countdown-time{
+  font-size:26px;
+  font-weight:700;
+  color:var(--text-primary);
+  font-variant-numeric:tabular-nums;
+}
+
+.panel{
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px 20px;
+  margin-bottom:20px;
+}
+
+.panel-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:var(--text-tertiary);
+  margin:0 0 10px;
+}
+
+.chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+
+.chip{
+  font-family:inherit;
+  font-weight:600;
+  font-size:13px;
+  padding:7px 13px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-secondary);
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  text-transform:lowercase;
+}
+.chip svg{ width:13px; height:13px; opacity:.85; }
+.chip.active{
+  background:var(--surface-3);
+  border-color:var(--surface-3);
+  color:var(--text-primary);
+}
+.chip:hover{ border-color:var(--text-tertiary); }
+
+.diff-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.diff-btn{
+  flex:1;
+  min-width:64px;
+  font-family:inherit;
+  font-weight:600;
+  font-size:12px;
+  padding:9px 6px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-secondary);
+  cursor:pointer;
+  transition:all .15s ease;
+  text-transform:lowercase;
+}
+.diff-btn.active{
+  background:var(--surface-3);
+  color:var(--text-primary);
+  border-color:var(--surface-3);
+}
+.diff-btn:hover{ border-color:var(--text-tertiary); }
+
+#diffSection{ margin-top:16px; }
+#ageRow{ margin-bottom:0; }
+
+.age-mode-row{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+.age-mode-btn{
+  font-family:inherit;
+  font-size:11px;
+  font-weight:600;
+  padding:5px 11px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-tertiary);
+  cursor:pointer;
+  text-transform:lowercase;
+  transition:all .15s ease;
+}
+.age-mode-btn.active{
+  background:var(--surface-2);
+  color:var(--text-secondary);
+  border-color:var(--surface-2);
+}
+.age-mode-btn:hover{ border-color:var(--text-tertiary); }
+
+.mania-note{
+  text-align:center;
+  color:var(--text-tertiary);
+  font-size:12px;
+  line-height:1.5;
+  margin:0 0 16px;
+}
+
+.streak-row{
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-secondary);
+  margin-bottom:16px;
+}
+.streak-row strong{ color:var(--text-primary); font-size:14px; }
+
+.draw-wrap{ display:flex; justify-content:center; margin-bottom:34px; }
+
+.draw-btn{
+  font-family:inherit;
+  font-weight:700;
+  font-size:15px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  cursor:pointer;
+  color:var(--text-primary);
+  background:var(--surface-1);
+  transition:transform .08s ease, background .15s ease;
+  text-transform:lowercase;
+}
+.draw-btn:hover{ background:var(--surface-2); }
+.draw-btn:active{ transform:scale(0.96); }
+.draw-btn:disabled{ opacity:.5; cursor:default; }
+
+.stage{ min-height:20px; }
+
+.ticket{
+  position:relative;
+  background:var(--surface-1);
+  color:var(--text-primary);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:26px 26px 22px;
+  margin-bottom:14px;
+}
+
+.ticket-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.entry-no{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-tertiary);
+}
+.cat-tag{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-secondary);
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.cat-tag svg{ width:14px; height:14px; }
+
+.quest-text{
+  font-size:20px;
+  line-height:1.5;
+  font-weight:600;
+  margin:0 0 20px;
+  color:var(--text-primary);
+}
+
+.ticket-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+.diff-marks{ display:flex; gap:3px; }
+.boot{ width:15px; height:15px; }
+.boot.filled{ opacity:1; }
+.boot.empty{ opacity:.25; }
+.xp-tag{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-secondary);
+}
+
+.mania-timer{
+  font-size:20px;
+  font-weight:700;
+  color:var(--text-primary);
+  font-variant-numeric:tabular-nums;
+}
+.mania-timer.warn{ color:var(--danger); }
+
+.actions{ display:flex; gap:10px; }
+.btn{
+  flex:1;
+  font-family:inherit;
+  font-weight:600;
+  font-size:14px;
+  padding:11px;
+  border-radius:10px;
+  cursor:pointer;
+  border:1px solid var(--border);
+  transition:transform .08s ease, filter .15s ease, background .15s ease;
+  text-transform:lowercase;
+}
+.btn:active{ transform:scale(0.97); }
+.btn-skip{
+  background:transparent;
+  color:var(--text-secondary);
+}
+.btn-skip:hover{ background:var(--surface-2); }
+.btn-skip:disabled{ opacity:.4; cursor:default; }
+.btn-complete{
+  background:var(--text-primary);
+  color:#000000;
+  border-color:var(--text-primary);
+}
+.btn-complete:hover{ filter:brightness(0.9); }
+.btn-complete:disabled{
+  opacity:.4;
+  cursor:default;
+  filter:none;
+}
+
+.stamp{
+  position:absolute;
+  top:38%; left:50%;
+  transform:translate(-50%,-50%) rotate(-8deg) scale(0.5);
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:.04em;
+  color:var(--text-primary);
+  border:3px solid var(--text-primary);
+  padding:6px 18px;
+  border-radius:10px;
+  opacity:0;
+  pointer-events:none;
+  text-transform:lowercase;
+}
+.stamp.show{
+  animation:stampIn .35s ease-out forwards;
+}
+@keyframes stampIn{
+  0%{ opacity:0; transform:translate(-50%,-50%) rotate(-8deg) scale(2); }
+  60%{ opacity:.9; transform:translate(-50%,-50%) rotate(-8deg) scale(0.92); }
+  100%{ opacity:.9; transform:translate(-50%,-50%) rotate(-8deg) scale(1); }
+}
+
+.locked-note{
+  text-align:center;
+  color:var(--text-tertiary);
+  font-size:13px;
+  margin-top:14px;
+}
+
+.empty-state{
+  text-align:center;
+  color:var(--text-secondary);
+  font-size:14px;
+  padding:30px 0 10px;
+}
+
+.hidden{ display:none; }
+
+.stats{
+  display:flex;
+  gap:12px;
+  margin-top:8px;
+}
+.stat-card{
+  flex:1;
+  background:var(--surface-2);
+  border-radius:10px;
+  padding:12px 14px;
+  text-align:center;
+}
+.stat-num{
+  font-size:22px;
+  font-weight:700;
+  color:var(--text-primary);
+}
+.stat-label{
+  font-size:11px;
+  letter-spacing:.03em;
+  color:var(--text-tertiary);
+  font-weight:600;
+}
+
+.xp-bar-wrap{
+  margin-top:16px;
+}
+.xp-bar-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-tertiary);
+  margin-bottom:5px;
+}
+.xp-bar-track{
+  height:8px;
+  border-radius:5px;
+  background:var(--surface-2);
+  overflow:hidden;
+}
+.xp-bar-fill{
+  height:100%;
+  background:var(--text-primary);
+  transition:width .4s ease;
+}
+
+.stamps-strip{
+  display:flex;
+  gap:6px;
+  margin-top:14px;
+  flex-wrap:wrap;
+}
+.stamp-dot{
+  width:16px; height:16px;
+  border-radius:50%;
+  border:1.5px solid var(--text-tertiary);
+}
+.stamp-dot.on{ background:var(--text-primary); border-color:var(--text-primary); }
+
+.stamps-meta{
+  text-align:center;
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-tertiary);
+  margin-top:8px;
+}
+
+.reset-row{ text-align:center; margin-top:22px; }
+.reset-link{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-tertiary);
+  background:none;
+  border:none;
+  cursor:pointer;
+  text-decoration:underline;
+  text-transform:lowercase;
+  font-family:inherit;
+}
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+.modal-box{
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:22px 22px 20px;
+  max-width:360px;
+  width:100%;
+}
+.modal-title{
+  font-size:17px;
+  font-weight:700;
+  color:var(--text-primary);
+  margin:0 0 8px;
+}
+.modal-text{
+  font-size:14px;
+  line-height:1.5;
+  color:var(--text-secondary);
+  margin:0 0 18px;
+}
+.modal-actions{ display:flex; gap:10px; }
+.modal-overlay.hidden{ display:none; }
+.section-divider{
+  margin-top:26px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+}
+.ticket-badges{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.quest-modifier{
+  font-size:13px;
+  font-style:italic;
+  color:var(--text-tertiary);
+  margin:-14px 0 18px;
+}
+```css
+/* ================================
+   mobile responsiveness
+   ================================ */
+
+/* prevent horizontal overflow */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* tablets / smaller laptops */
+@media (max-width: 700px) {
+  body {
+    padding: 32px 14px 48px;
+  }
+
+  .wrap {
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .tagline {
+    font-size: 14px;
+    margin-bottom: 26px;
+  }
+
+  .mode-tabs {
+    margin-bottom: 20px;
+  }
+
+  .mode-tab {
+    font-size: 12px;
+    padding: 10px 6px;
+  }
+
+  .panel {
+    padding: 16px;
+    border-radius: 11px;
+  }
+
+  .ticket {
+    padding: 21px 18px 18px;
+  }
+
+  .quest-text {
+    font-size: 18px;
+    line-height: 1.45;
+  }
+
+  .draw-wrap {
+    margin-bottom: 28px;
+  }
+
+  .draw-btn {
+    width: 125px;
+    height: 125px;
+    font-size: 14px;
+  }
+
+  .stats {
+    gap: 7px;
+  }
+
+  .stat-card {
+    padding: 11px 6px;
+  }
+
+  .stat-num {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .chips {
+    gap: 6px;
+  }
+
+  .chip {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .diff-row {
+    gap: 6px;
+  }
+
+  .diff-btn {
+    min-width: 0;
+    padding: 9px 5px;
+    font-size: 11px;
+  }
+}
+
+
+/* phones */
+@media (max-width: 480px) {
+  body {
+    padding: 24px 10px 40px;
+  }
+
+  .wrap {
+    width: 100%;
+  }
+
+  /* header */
+  .sound-toggle {
+    width: 32px;
+    height: 32px;
+    top: -2px;
+    right: 0;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    margin-bottom: 5px;
+    padding-right: 38px;
+  }
+
+  h1 {
+    font-size: 25px;
+    letter-spacing: -0.02em;
+    padding-right: 30px;
+  }
+
+  .tagline {
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 0 20px;
+    margin-bottom: 22px;
+  }
+
+  /* main mode tabs */
+  .mode-tabs {
+    width: 100%;
+    border-radius: 9px;
+  }
+
+  .mode-tab {
+    min-height: 38px;
+    font-size: 12px;
+  }
+
+  /* countdown */
+  .countdown-box {
+    margin-bottom: 14px;
+  }
+
+  .countdown-label {
+    font-size: 10px;
+  }
+
+  .countdown-time {
+    font-size: 22px;
+  }
+
+  /* panels */
+  .panel {
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+
+  .panel-label {
+    font-size: 10px;
+    margin-bottom: 9px;
+  }
+
+  /* filter chips */
+  .chips {
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 7px 9px;
+    border-radius: 18px;
+  }
+
+  .chip svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* difficulty / age buttons */
+  .diff-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .diff-btn {
+    width: 100%;
+    min-width: 0;
+    font-size: 11px;
+    padding: 9px 5px;
+  }
+
+  /* age mode */
+  .age-mode-row {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .age-mode-btn {
+    font-size: 10px;
+    padding: 5px 9px;
+  }
+
+  /* ruleset timer */
+  #rulesetTimerRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #rulesetTimerRow .diff-btn {
+    font-size: 10px;
+  }
+
+  /* notes */
+  .mania-note {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  /* streak */
+  .streak-row {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+
+  .streak-row strong {
+    font-size: 13px;
+  }
+
+  /* draw button */
+  .draw-wrap {
+    margin-bottom: 24px;
+  }
+
+  .draw-btn {
+    width: 118px;
+    height: 118px;
+    font-size: 13px;
+  }
+
+  /* quest ticket */
+  .ticket {
+    padding: 18px 15px 16px;
+    border-radius: 11px;
+    margin-bottom: 12px;
+  }
+
+  .ticket-top {
+    margin-bottom: 13px;
+    padding-bottom: 10px;
+  }
+
+  .entry-no,
+  .cat-tag {
+    font-size: 10px;
+  }
+
+  .cat-tag svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .quest-text {
+    font-size: 17px;
+    line-height: 1.45;
+    margin-bottom: 17px;
+  }
+
+  .quest-modifier {
+    font-size: 11px;
+    margin: -10px 0 15px;
+  }
+
+  .ticket-bottom {
+    margin-bottom: 15px;
+    gap: 8px;
+  }
+
+  .xp-tag {
+    font-size: 10px;
+  }
+
+  .mania-timer {
+    font-size: 17px;
+  }
+
+  .ticket-badges {
+    gap: 7px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  /* action buttons */
+  .actions {
+    gap: 7px;
+  }
+
+  .btn {
+    min-height: 42px;
+    padding: 10px 7px;
+    font-size: 12px;
+    border-radius: 9px;
+  }
+
+  /* stamps */
+  .stamp {
+    font-size: 21px;
+    border-width: 2px;
+    padding: 5px 13px;
+  }
+
+  /* locked notes */
+  .locked-note {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  /* empty state */
+  .empty-state {
+    font-size: 12px;
+    padding: 24px 8px 8px;
+  }
+
+  /* explorer stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .stat-card {
+    padding: 10px 4px;
+    border-radius: 8px;
+  }
+
+  .stat-num {
+    font-size: 19px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  /* xp */
+  .xp-bar-wrap {
+    margin-top: 13px;
+  }
+
+  .xp-bar-labels {
+    font-size: 10px;
+  }
+
+  .xp-bar-track {
+    height: 7px;
+  }
+
+  /* stamps strip */
+  .stamps-strip {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .stamp-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .stamps-meta {
+    font-size: 10px;
+  }
+
+  /* reset */
+  .reset-row {
+    margin-top: 18px;
+  }
+
+  .reset-link {
+    font-size: 10px;
+  }
+
+  /* modal */
+  .modal-overlay {
+    padding: 14px;
+  }
+
+  .modal-box {
+    padding: 19px 17px 17px;
+    border-radius: 12px;
+  }
+
+  .modal-title {
+    font-size: 16px;
+  }
+
+  .modal-text {
+    font-size: 13px;
+  }
+
+  .modal-actions {
+    gap: 7px;
+  }
+}
+
+
+/* very small phones */
+@media (max-width: 350px) {
+  body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+
+  .tagline {
+    padding: 0 10px;
+  }
+
+  .mode-tab {
+    font-size: 11px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .chip {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .quest-text {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 11px;
+  }
+
+  .draw-btn {
+    width: 108px;
+    height: 108px;
+  }
+
+  .stat-num {
+    font-size: 17px;
+  }
+
+  .stat-label {
+    font-size: 8px;
+  }
+
+  .stamp-dot {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+
+/* improve touch interaction */
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: none) {
+  .chip:hover,
+  .diff-btn:hover,
+  .btn-skip:hover,
+  .draw-btn:hover,
+  .sound-toggle:hover {
+    background: initial;
+    filter: none;
+  }
+
+  button:active {
+    opacity: 0.8;
+  }
+}
+
+
+/* prevent long quest text / modifiers from causing overflow */
+.quest-text,
+.quest-modifier,
+.locked-note,
+.modal-text {
+  overflow-wrap: anywhere;
+}
+
+
+/* keep SVGs from shrinking strangely in flex layouts */
+.cat-tag svg,
+.chip svg,
+.boot {
+  flex-shrink: 0;
+}
+```
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <button class="sound-toggle" id="soundToggle" aria-label="toggle sound">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundIcon"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>
+  </button>
+  <p class="eyebrow">expedition log</p>
+  <h1>quest clans</h1>
+  <p class="tagline">draw a small adventure for right now</p>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tabDaily">events</button>
+    <button class="mode-tab" id="tabFree">endless</button>
+  </div>
+
+  <div id="dailyView">
+    <div class="countdown-box">
+      <p class="countdown-label">orders expire in</p>
+      <div class="countdown-time" id="countdownTime">--:--:--</div>
+    </div>
+    <div class="stage" id="dailyStage"></div>
+
+    <p class="panel-label section-divider">weekly gauntlet</p>
+    <div class="countdown-box">
+      <p class="countdown-label">week resets in</p>
+      <div class="countdown-time" id="weeklyCountdownTime">--d --:--:--</div>
+    </div>
+    <p class="mania-note">one shared run for everyone this week. no filters, no retries — skip once and your score locks in until reset.</p>
+    <div class="stage" id="weeklyStage"></div>
+  </div>
+
+  <div id="freeDrawView" class="hidden">
+    <div class="mode-tabs" id="submodeTabs" style="margin-bottom:16px;">
+      <button class="mode-tab active" id="subClassic">classic</button>
+      <button class="mode-tab" id="subMania">mixed mania</button>
+      <button class="mode-tab" id="subGauntlet">gauntlet</button>
+      <button class="mode-tab" id="subExpedition">expedition</button>
+    </div>
+
+    <p class="mania-note hidden" id="maniaNote">bite-sized quests only. you get 10 minutes to complete each one. skip as often as you like — but skipping breaks your endless streak.</p>
+    <p class="mania-note hidden" id="gauntletNote">no safety net. one skip ends the run and locks in your streak as your final score. tag, age, and difficulty filters still apply.</p>
+    <p class="mania-note hidden" id="expeditionNote">15 minutes per quest. each one is harder than the last — skip, and the ladder resets back to easy.</p>
+
+    <div class="panel">
+      <p class="panel-label">tags</p>
+      <div class="chips" id="catChips"></div>
+      <p class="panel-label">age group</p>
+      <div class="diff-row" id="ageRow"></div>
+      <div class="age-mode-row" id="ageModeRow">
+        <button class="age-mode-btn active" id="ageModeUnder" data-mode="hierarchical">and under</button>
+        <button class="age-mode-btn" id="ageModeExact" data-mode="exact">exact only</button>
+      </div>
+      <div id="diffSection">
+        <p class="panel-label">difficulty</p>
+        <div class="diff-row" id="diffRow"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-label">rulesets</p>
+      <p class="mania-note" style="margin-bottom:14px;">optional — combine any of these with the submode above.</p>
+      <div class="chips" id="rulesetChips">
+        <button class="chip" id="rsSeeingDouble">seeing double</button>
+        <button class="chip" id="rsModifiers">modifiers</button>
+      </div>
+      <div class="diff-row" id="rulesetTimerRow"></div>
+    </div>
+
+    <div class="streak-row" id="streakRow">endless streak: <strong id="streakVal">0</strong></div>
+
+    <div class="draw-wrap">
+      <button class="draw-btn" id="drawBtn">draw<br>quest</button>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="empty-state">your quest log is empty. draw one above.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="panel-label">explorer's log</p>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statStreak">0</div><div class="stat-label">daily streak</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">completed</div></div>
+      <div class="stat-card"><div class="stat-num" id="statLevel">1</div><div class="stat-label">level</div></div>
+    </div>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-labels"><span id="xpNow">0 xp</span><span id="xpNext">100 xp</span></div>
+      <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill" style="width:0%"></div></div>
+    </div>
+    <div class="stamps-strip" id="stampsStrip"></div>
+    <p class="stamps-meta" id="stampsMeta"></p>
+  </div>
+
+  <div class="reset-row"><button class="reset-link" id="resetBtn">reset log</button></div>
+</div>
+
+<div class="modal-overlay hidden" id="filterWarnOverlay">
+  <div class="modal-box">
+    <p class="modal-title">reset your streak?</p>
+    <p class="modal-text" id="filterWarnText"></p>
+    <div class="modal-actions">
+      <button class="btn btn-skip" id="filterWarnCancel" style="flex:1">keep streak</button>
+      <button class="btn btn-complete" id="filterWarnConfirm" style="flex:1">change anyway</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ICONS = {
+  social: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.38 8.38 0 0 1 12.5 3 8.5 8.5 0 0 1 21 11.5z"/></svg>',
+  create: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  move: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l4-9 3 3 3-6 3 3M4 20h16"/></svg>',
+  explore: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8l-3 5-5 3 3-5z"/></svg>',
+  mind: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C7 2 5 6 5 9c0 3 2 4 2 7h10c0-3 2-4 2-7 0-3-2-7-7-7z"/><path d="M9 20h6M10 22h4"/></svg>',
+  wild: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
+  friends: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+};
+const CAT_LABEL = {social:'social', create:'create', move:'move', explore:'explore', mind:'mind', wild:'wildcard', friends:'friends'};
+
+// age: 0 = family (all ages), 1 = teen+ (13+), 2 = adult (18+)
+// quick: true if the quest is realistically doable within ~10 minutes (used by mixed mania)
+const QUESTS = [
+{t:"Compliment a stranger on something specific, not generic.", c:"social", d:1, age:0, quick:true},
+{t:"Call someone you haven't spoken to in over a month, no text first.", c:"social", d:2, age:0, quick:true},
+{t:"Ask a coworker or neighbor a question about their life you've never asked before.", c:"social", d:1, age:0, quick:true},
+{t:"Sit at a bar or cafe counter and start a conversation with whoever's next to you.", c:"social", d:2, age:2, quick:true},
+{t:"Write and send a short thank-you note to someone who shaped you.", c:"social", d:1, age:0, quick:true},
+{t:"Invite someone to do something spontaneous today, no advance planning.", c:"social", d:2, age:0, quick:true},
+{t:"Ask a stranger for a restaurant recommendation and actually go.", c:"social", d:2, age:1, quick:false},
+{t:"Tell someone the specific thing you admire about them, out loud.", c:"social", d:1, age:0, quick:true},
+{t:"Reconnect with an old friend by sharing a memory you still think about.", c:"social", d:2, age:0, quick:true},
+{t:"Strike up small talk with someone in a line or waiting room.", c:"social", d:1, age:0, quick:true},
+{t:"Sketch or doodle a stranger's face from memory after seeing them today.", c:"create", d:2, age:0, quick:true},
+{t:"Write a six-word story about your morning.", c:"create", d:1, age:0, quick:true},
+{t:"Make up a short tune and hum it until you remember it.", c:"create", d:1, age:0, quick:true},
+{t:"Cook a dish from a country you've never visited, no recipe app allowed halfway through.", c:"create", d:3, age:1, quick:false},
+{t:"Rearrange one room using only what you already own.", c:"create", d:2, age:1, quick:false},
+{t:"Write a letter to yourself five years from now.", c:"create", d:2, age:0, quick:true},
+{t:"Take ten photos of things most people walk past without noticing.", c:"create", d:1, age:0, quick:true},
+{t:"Invent a new sandwich and give it a name.", c:"create", d:1, age:0, quick:true},
+{t:"Fold a piece of paper into something without instructions.", c:"create", d:1, age:0, quick:true},
+{t:"Write a one-paragraph review of your day as if it were a movie.", c:"create", d:2, age:0, quick:true},
+{t:"Design a flag for a country that doesn't exist.", c:"create", d:2, age:0, quick:true},
+{t:"Learn and perform one new knot, magic trick, or party skill.", c:"create", d:2, age:0, quick:true},
+{t:"Take a walk with no destination for at least 20 minutes.", c:"move", d:1, age:0, quick:false},
+{t:"Do a workout style you've never tried before.", c:"move", d:2, age:1, quick:false},
+{t:"Climb the tallest thing nearby you're allowed to climb.", c:"move", d:2, age:1, quick:false},
+{t:"Take the stairs everywhere today, no exceptions.", c:"move", d:1, age:0, quick:false},
+{t:"Go for a run or walk somewhere you've never been on foot.", c:"move", d:2, age:1, quick:false},
+{t:"Try a sport you haven't played since childhood.", c:"move", d:3, age:1, quick:false},
+{t:"Dance for one full song, alone, no audience.", c:"move", d:1, age:0, quick:true},
+{t:"Bike or walk to somewhere you'd normally drive.", c:"move", d:2, age:1, quick:false},
+{t:"Do a stretch or mobility routine you find on the spot and finish it.", c:"move", d:1, age:0, quick:true},
+{t:"Carry something heavy up a hill just to feel it.", c:"move", d:2, age:1, quick:true},
+{t:"Find a street or neighborhood you've never walked down and explore it fully.", c:"explore", d:2, age:1, quick:false},
+{t:"Get on a bus or train with no destination and see where it takes you.", c:"explore", d:3, age:1, quick:false},
+{t:"Visit a museum, gallery, or bookstore you've been meaning to check out.", c:"explore", d:2, age:0, quick:false},
+{t:"Find the highest publicly accessible point near you and go there.", c:"explore", d:2, age:1, quick:false},
+{t:"Eat at a restaurant of a cuisine you've never tried.", c:"explore", d:2, age:0, quick:false},
+{t:"Go somewhere at a time of day you've never been there before.", c:"explore", d:1, age:1, quick:false},
+{t:"Find a local landmark and learn its actual history on the spot.", c:"explore", d:1, age:0, quick:true},
+{t:"Take a different route to somewhere familiar and notice three new things.", c:"explore", d:1, age:0, quick:true},
+{t:"Visit the oldest building you can find nearby.", c:"explore", d:2, age:0, quick:false},
+{t:"Go somewhere with a view and stay until the light changes.", c:"explore", d:2, age:0, quick:false},
+{t:"Sit in silence with no phone for 15 minutes and just observe.", c:"mind", d:1, age:0, quick:false},
+{t:"Write down three things you're avoiding and why.", c:"mind", d:2, age:0, quick:true},
+{t:"Go a full day without complaining about anything, even small things.", c:"mind", d:3, age:1, quick:false},
+{t:"Name one fear out loud to someone you trust.", c:"mind", d:3, age:1, quick:true},
+{t:"Watch a sunrise or sunset start to finish, no distractions.", c:"mind", d:1, age:0, quick:false},
+{t:"Journal about the last time you felt truly proud of yourself.", c:"mind", d:1, age:0, quick:true},
+{t:"Spend an hour with no screens at all.", c:"mind", d:2, age:0, quick:false},
+{t:"Forgive yourself, in writing, for one specific thing.", c:"mind", d:2, age:0, quick:true},
+{t:"Sit somewhere uncomfortable on purpose and stay for ten minutes.", c:"mind", d:1, age:0, quick:true},
+{t:"List ten things you're grateful for that you've never said out loud.", c:"mind", d:1, age:0, quick:true},
+{t:"Let a coin flip decide your next hour, then commit fully.", c:"wild", d:2, age:0, quick:false},
+{t:"Eat a meal with your non-dominant hand.", c:"wild", d:1, age:0, quick:false},
+{t:"Wear something unusual for you all day and see how it changes your mood.", c:"wild", d:1, age:0, quick:false},
+{t:"Speak only in questions for the next ten minutes.", c:"wild", d:1, age:0, quick:true},
+{t:"Do the opposite of your usual routine for one hour.", c:"wild", d:2, age:0, quick:false},
+{t:"Give away something you own to a stranger, no explanation needed.", c:"wild", d:2, age:1, quick:true},
+{t:"Leave an anonymous kind note somewhere for a stranger to find.", c:"wild", d:1, age:0, quick:true},
+{t:"Try to make a stranger laugh, no jokes about them.", c:"wild", d:2, age:0, quick:true},
+{t:"Spend the next hour pretending you're a tourist in your own town.", c:"wild", d:1, age:0, quick:false},
+{t:"Do something today exactly the way you did it as a kid.", c:"wild", d:2, age:0, quick:false},
+{t:"Call a friend and let them pick your next 30 minutes for you.", c:"friends", d:2, age:0, quick:true},
+{t:"Challenge a friend to a rematch of a game you haven't played in years.", c:"friends", d:2, age:0, quick:false},
+{t:"Cook a meal together with a friend, no recipe, working from what's in the fridge.", c:"friends", d:3, age:1, quick:false},
+{t:"Take a friend somewhere neither of you has been before.", c:"friends", d:3, age:1, quick:false},
+{t:"Teach a friend one skill you know that they don't.", c:"friends", d:2, age:0, quick:true},
+{t:"Have a friend teach you one skill you don't know.", c:"friends", d:2, age:0, quick:true},
+{t:"Get a friend to guess your top three favorites of anything, correct them out loud.", c:"friends", d:1, age:0, quick:true},
+{t:"Plan and pull off a tiny surprise for a friend today.", c:"friends", d:3, age:0, quick:false},
+{t:"Have a staring contest, thumb war, or best-of-ten rock-paper-scissors with a friend.", c:"friends", d:1, age:0, quick:true},
+{t:"Ask a friend what they think your hidden talent is, and why.", c:"friends", d:1, age:0, quick:true},
+{t:"Give a genuine compliment to three different strangers before the day ends.", c:"social", d:2, age:0, quick:false},
+{t:"Strike up a conversation with someone waiting for the same thing as you.", c:"social", d:1, age:0, quick:true},
+{t:"Ask a stranger to recommend their favorite song, then actually listen to it.", c:"social", d:1, age:0, quick:true},
+{t:"Introduce yourself to a neighbor you've never formally met.", c:"social", d:2, age:0, quick:true},
+{t:"Send a voice memo instead of a text to someone you'd normally text.", c:"social", d:1, age:0, quick:true},
+{t:"Write a haiku about the last thing that annoyed you.", c:"create", d:1, age:0, quick:true},
+{t:"Build something small out of objects already on your desk or table.", c:"create", d:1, age:0, quick:true},
+{t:"Redesign your morning routine on paper, even if you never use it.", c:"create", d:2, age:0, quick:true},
+{t:"Make a playlist that tells a five-song story about your week.", c:"create", d:2, age:0, quick:false},
+{t:"Write the opening paragraph of a book you'll never finish.", c:"create", d:1, age:0, quick:true},
+{t:"Try to draw your own hand without looking at the paper.", c:"create", d:1, age:0, quick:true},
+{t:"Do 50 of any single exercise, broken into sets if needed.", c:"move", d:1, age:1, quick:true},
+{t:"Walk backward for one full minute somewhere safe to do so.", c:"move", d:1, age:0, quick:true},
+{t:"Time yourself doing a lap of your home or block, then beat it.", c:"move", d:1, age:0, quick:true},
+{t:"Stretch every major muscle group before you do anything else today.", c:"move", d:1, age:0, quick:true},
+{t:"Take the longest possible walking route to somewhere close by.", c:"move", d:1, age:0, quick:false},
+{t:"Find a park bench you've never sat on and just sit there for a while.", c:"explore", d:1, age:0, quick:false},
+{t:"Walk into a shop you've always been curious about but never entered.", c:"explore", d:1, age:0, quick:true},
+{t:"Find the nearest body of water and go stand next to it.", c:"explore", d:1, age:0, quick:false},
+{t:"Pick a direction at random and walk that way for ten minutes.", c:"explore", d:1, age:0, quick:true},
+{t:"Visit a farmers market or corner store you've never been to.", c:"explore", d:2, age:0, quick:false},
+{t:"Write down every worry currently on your mind, then set the list aside.", c:"mind", d:1, age:0, quick:true},
+{t:"Sit with your eyes closed and name five sounds you can hear.", c:"mind", d:1, age:0, quick:true},
+{t:"Text someone one thing you appreciate about them, unprompted.", c:"mind", d:1, age:0, quick:true},
+{t:"Spend five minutes imagining your ideal ordinary day, in detail.", c:"mind", d:1, age:0, quick:true},
+{t:"Say one true, kind thing about yourself out loud, alone.", c:"mind", d:1, age:0, quick:true},
+{t:"Eat something today you've never tried before.", c:"wild", d:1, age:0, quick:true},
+{t:"Do your next task in complete silence, no music or background noise.", c:"wild", d:1, age:0, quick:true},
+{t:"Narrate your next five minutes out loud like a nature documentary.", c:"wild", d:1, age:0, quick:true},
+{t:"Switch which wrist you wear your watch or bracelet on for the day.", c:"wild", d:1, age:0, quick:false},
+{t:"Answer the next question anyone asks you with total, unfiltered honesty.", c:"wild", d:2, age:1, quick:true},
+{t:"Send a friend a photo with no caption and see what they say.", c:"friends", d:1, age:0, quick:true},
+{t:"Ask a friend to pick a random object in their space and describe it to you.", c:"friends", d:1, age:0, quick:true},
+{t:"Start a group chat challenge that lasts exactly one day.", c:"friends", d:2, age:0, quick:false},
+{t:"Ask a friend for their most-used app and try using it their way for ten minutes.", c:"friends", d:1, age:0, quick:true}
+];
+
+const AGE_TIERS = [
+  {key:'any', label:'any age'},
+  {key:0, label:'family'},
+  {key:1, label:'teen+'},
+  {key:2, label:'adult'}
+];
+
+const XP_BY_DIFF = {1:10, 2:20, 3:35};
+const STORAGE_KEY = 'fieldquests:profile';
+const MANIA_SECONDS = 600;
+const EXPEDITION_SECONDS = 900;
+const RULESET_TIMER_SECONDS = {rush: 1200, bullet: 600};
+const MODIFIER_BONUS_XP = 5;
+
+// modifiers: an optional extra constraint tacked onto whichever quest gets
+// drawn, on top of any submode/timer ruleset. kept general-purpose (mostly
+// about how you do it rather than what) so any of them can reasonably
+// attach to any quest in the pool.
+const MODIFIERS = [
+  "one handed",
+  "using only your non-dominant hand",
+  "in complete silence",
+  "while humming a tune",
+  "recorded on video",
+  "standing the entire time",
+  "with your eyes closed for the first ten seconds",
+  "twice, back to back",
+  "in under five minutes",
+  "while whispering",
+  "barefoot, if it's safe to",
+  "without checking the time once",
+  "using only gestures, no words",
+  "with a completely straight face",
+  "left foot forward, always",
+  "smiling the entire time",
+  "one word at a time",
+  "as if it's the most important thing you'll do today",
+  "in slow motion",
+  "narrating it out loud as you go"
+];
+const WEEKLY_LENGTH = 7;
+const WEEKLY_CLEAR_BONUS = 50;
+
+let profile = {xp:0, dailyStreak:0, longestDailyStreak:0, totalCompleted:0, lastDailyCompletedDate:null, lastDailySeenDate:null, drawnCount:0, soundEnabled:true, endlessStreak:0, longestEndlessStreak:0, longestGauntletStreak:0, weeklyWeekId:null, weeklyProgress:0, weeklyStatus:'active', weeklyScore:0, weeklyBest:0};
+let selectedCats = new Set(Object.keys(CAT_LABEL));
+let selectedDiff = 'any';
+let selectedAge = 'any';
+let ageMode = 'hierarchical'; // 'hierarchical' (this age and under) | 'exact' (this age tier only)
+let currentQuest = null;
+let questState = 'none'; // 'none' | 'drawn' | 'done' | 'expired'
+let currentMode = 'daily'; // 'daily' | 'free'
+let currentSubMode = 'classic'; // 'classic' | 'mania' | 'gauntlet'
+let maniaInterval = null;
+let maniaTimeLeft = MANIA_SECONDS;
+let pendingFilterChange = null;
+
+// rulesets are independent modifiers layered on top of whatever submode is
+// active (classic/mania/gauntlet) — e.g. "endless + seeing double" or
+// "gauntlet + rush". they combine freely with each other and with any
+// submode, unlike submodes which are mutually exclusive tabs.
+let rulesetSeeingDouble = false;
+let rulesetModifiers = false;
+let rulesetTimer = 'none'; // 'none' | 'rush' | 'bullet'
+let seeingDoubleChoices = null; // [questA, questB] while awaiting a pick
+let currentModifier = null; // the modifier text attached to the current draw, if any
+const filterWarnOverlay = document.getElementById('filterWarnOverlay');
+const filterWarnText = document.getElementById('filterWarnText');
+const filterWarnCancel = document.getElementById('filterWarnCancel');
+const filterWarnConfirm = document.getElementById('filterWarnConfirm');
+
+// tags, age group, and difficulty change the quest pool mid-run, so if an
+// endless streak is currently active, changing any of them asks for
+// confirmation first instead of silently wiping the streak. with no active
+// streak (endlessStreak is 0) the change just applies immediately.
+function guardedFilterChange(applyFn){
+  if((profile.endlessStreak || 0) > 0){
+    pendingFilterChange = applyFn;
+    filterWarnText.textContent = `you have an endless streak of ${profile.endlessStreak} going. changing this will reset it to zero.`;
+    filterWarnOverlay.classList.remove('hidden');
+  } else {
+    applyFn();
+  }
+}
+
+function hideFilterWarning(){
+  filterWarnOverlay.classList.add('hidden');
+  pendingFilterChange = null;
+}
+
+filterWarnCancel.addEventListener('click', () => { playClick(); hideFilterWarning(); });
+filterWarnConfirm.addEventListener('click', () => {
+  playClick();
+  const change = pendingFilterChange;
+  hideFilterWarning();
+  if(change){
+    resetEndlessStreak();
+    change();
+  }
+});
+
+const soundToggle = document.getElementById('soundToggle');
+const soundIcon = document.getElementById('soundIcon');
+const MUTED_PATH = '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6"/><path d="M17 9l6 6"/>';
+const UNMUTED_PATH = '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/>';
+
+const catChips = document.getElementById('catChips');
+const diffRow = document.getElementById('diffRow');
+const ageRow = document.getElementById('ageRow');
+const diffSection = document.getElementById('diffSection');
+const maniaNote = document.getElementById('maniaNote');
+const stage = document.getElementById('stage');
+const drawBtn = document.getElementById('drawBtn');
+const dailyStage = document.getElementById('dailyStage');
+const countdownTime = document.getElementById('countdownTime');
+const dailyView = document.getElementById('dailyView');
+const freeDrawView = document.getElementById('freeDrawView');
+const weeklyCountdownTime = document.getElementById('weeklyCountdownTime');
+const weeklyStage = document.getElementById('weeklyStage');
+const tabDaily = document.getElementById('tabDaily');
+const tabFree = document.getElementById('tabFree');
+const subClassic = document.getElementById('subClassic');
+const subMania = document.getElementById('subMania');
+const subGauntlet = document.getElementById('subGauntlet');
+const gauntletNote = document.getElementById('gauntletNote');
+const subExpedition = document.getElementById('subExpedition');
+const expeditionNote = document.getElementById('expeditionNote');
+const streakVal = document.getElementById('streakVal');
+const ageModeUnder = document.getElementById('ageModeUnder');
+const ageModeExact = document.getElementById('ageModeExact');
+const rsSeeingDouble = document.getElementById('rsSeeingDouble');
+const rsModifiers = document.getElementById('rsModifiers');
+const rulesetTimerRow = document.getElementById('rulesetTimerRow');
+
+function pad(n){ return String(n).padStart(2, '0'); }
+let audioCtx = null;
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if(audioCtx.state === 'suspended'){
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function tone(ctx, freq, {start, duration, gain, type='sine', filterFreq=1800, detune=0}){
+  const osc = ctx.createOscillator();
+  osc.type = type;
+  osc.frequency.value = freq;
+  osc.detune.value = detune;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = filterFreq;
+  filter.Q.value = 0.7;
+
+  const env = ctx.createGain();
+  const now = start;
+  env.gain.setValueAtTime(0, now);
+  env.gain.linearRampToValueAtTime(gain, now + 0.012);
+  env.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+  osc.connect(filter);
+  filter.connect(env);
+  env.connect(ctx.destination);
+
+  osc.start(now);
+  osc.stop(now + duration + 0.02);
+}
+
+function playSound(fn){
+  if(!profile.soundEnabled) return;
+  try{
+    const ctx = ensureAudio();
+    fn(ctx);
+  } catch(e){
+    // audio unavailable, fail silently
+  }
+}
+
+function playDraw(){
+  playSound(ctx => {
+    const now = ctx.currentTime;
+    tone(ctx, 523.25, {start:now, duration:0.22, gain:0.05, type:'sine', filterFreq:2200});
+    tone(ctx, 659.25, {start:now + 0.05, duration:0.28, gain:0.045, type:'sine', filterFreq:2200});
+  });
+}
+
+function playSkip(){
+  playSound(ctx => {
+    const now = ctx.currentTime;
+    tone(ctx, 260, {start:now, duration:0.16, gain:0.035, type:'sine', filterFreq:1200});
+  });
+}
+
+function playComplete(){
+  playSound(ctx => {
+    const now = ctx.currentTime;
+    const chord = [392.0, 493.88, 587.33, 783.99];
+    chord.forEach((freq, i) => {
+      tone(ctx, freq, {start:now + i * 0.02, duration:0.9, gain:0.038, type:'triangle', filterFreq:2600, detune:(i % 2 === 0 ? -4 : 4)});
+    });
+  });
+}
+
+function playClick(){
+  playSound(ctx => {
+    const now = ctx.currentTime;
+    tone(ctx, 900, {start:now, duration:0.05, gain:0.018, type:'sine', filterFreq:3000});
+  });
+}
+
+function updateSoundIcon(){
+  soundIcon.innerHTML = profile.soundEnabled ? UNMUTED_PATH : MUTED_PATH;
+  soundToggle.classList.toggle('muted', !profile.soundEnabled);
+}
+
+soundToggle.addEventListener('click', () => {
+  profile.soundEnabled = !profile.soundEnabled;
+  updateSoundIcon();
+  if(profile.soundEnabled) playClick();
+  saveProfile();
+});
+
+function localDateStr(d){
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+
+function hashStr(str){
+  let h = 0;
+  for(let i = 0; i < str.length; i++){
+    h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
+function questForDate(dateStr){
+  const idx = hashStr(dateStr) % QUESTS.length;
+  return QUESTS[idx];
+}
+
+function switchMode(mode){
+  currentMode = mode;
+  tabDaily.classList.toggle('active', mode === 'daily');
+  tabFree.classList.toggle('active', mode === 'free');
+  dailyView.classList.toggle('hidden', mode !== 'daily');
+  freeDrawView.classList.toggle('hidden', mode !== 'free');
+  if(mode !== 'free'){
+    // leaving the endless view invalidates any live mixed-mania timer
+    resetEndlessStage();
+  }
+}
+tabDaily.addEventListener('click', () => { playClick(); switchMode('daily'); });
+tabFree.addEventListener('click', () => { playClick(); switchMode('free'); });
+
+function switchSubMode(mode){
+  currentSubMode = mode;
+  subClassic.classList.toggle('active', mode === 'classic');
+  subMania.classList.toggle('active', mode === 'mania');
+  subGauntlet.classList.toggle('active', mode === 'gauntlet');
+  subExpedition.classList.toggle('active', mode === 'expedition');
+  // expedition dictates its own escalating difficulty, same as mania
+  // dictates its own quick-only pool — the manual difficulty picker is
+  // redundant (and hidden) for both.
+  diffSection.classList.toggle('hidden', mode === 'mania' || mode === 'expedition');
+  maniaNote.classList.toggle('hidden', mode !== 'mania');
+  gauntletNote.classList.toggle('hidden', mode !== 'gauntlet');
+  expeditionNote.classList.toggle('hidden', mode !== 'expedition');
+  // mania and expedition each already force their own timer, so the
+  // rush/bullet ruleset picker is redundant (and hidden) while either is
+  // active — the chosen value is preserved, just not shown, so it's back in
+  // effect the moment you switch to classic or gauntlet again.
+  rulesetTimerRow.classList.toggle('hidden', mode === 'mania' || mode === 'expedition');
+  resetEndlessStage();
+}
+subClassic.addEventListener('click', () => { playClick(); switchSubMode('classic'); });
+subMania.addEventListener('click', () => { playClick(); switchSubMode('mania'); });
+subGauntlet.addEventListener('click', () => { playClick(); switchSubMode('gauntlet'); });
+subExpedition.addEventListener('click', () => { playClick(); switchSubMode('expedition'); });
+
+function resetEndlessStage(){
+  clearManiaTimer();
+  currentQuest = null;
+  questState = 'none';
+  seeingDoubleChoices = null;
+  currentModifier = null;
+  stage.innerHTML = '<div class="empty-state">your quest log is empty. draw one above.</div>';
+}
+
+// FIX (issue 2 from earlier): use a single consistent "now" reference to derive both
+// today's and yesterday's date strings via calendar arithmetic, rather than
+// subtracting 86400000ms (which can land on the wrong calendar day around
+// DST transitions in some timezones).
+function checkDailyRollover(){
+  const now = new Date();
+  const today = localDateStr(now);
+  if(profile.lastDailySeenDate !== today){
+    if(profile.lastDailySeenDate){
+      const yesterday = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+      if(profile.lastDailyCompletedDate !== yesterday){
+        profile.dailyStreak = 0;
+      }
+    }
+    profile.lastDailySeenDate = today;
+    saveProfile();
+  }
+}
+
+// Monday-anchored local week, matching the same local-date approach used
+// for the daily quest (so both reset on the user's own clock).
+function startOfWeek(now){
+  const day = now.getDay(); // 0=Sun..6=Sat
+  const diffToMonday = (day === 0) ? -6 : (1 - day);
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday);
+}
+
+function weekIdFor(now){
+  return localDateStr(startOfWeek(now));
+}
+
+let weeklySeqCache = {wid:null, seq:null};
+
+// deterministic 7-quest sequence shared by every player for a given week —
+// same idea as questForDate(), just walked forward WEEKLY_LENGTH times with
+// a small salt loop to avoid two back-to-back slots landing on the exact
+// same quest text.
+function buildWeeklySequence(weekId){
+  const seq = [];
+  for(let i = 0; i < WEEKLY_LENGTH; i++){
+    let salt = 0;
+    let q = QUESTS[hashStr(weekId + ':' + i + ':' + salt) % QUESTS.length];
+    while(seq.length && seq[seq.length - 1].t === q.t && salt < 5){
+      salt++;
+      q = QUESTS[hashStr(weekId + ':' + i + ':' + salt) % QUESTS.length];
+    }
+    seq.push(q);
+  }
+  return seq;
+}
+
+function getWeeklySequence(weekId){
+  if(weeklySeqCache.wid !== weekId){
+    weeklySeqCache = {wid: weekId, seq: buildWeeklySequence(weekId)};
+  }
+  return weeklySeqCache.seq;
+}
+
+// when the week rolls over, whatever the current run reached (its locked
+// score if it already failed/completed, or its live progress if the week
+// simply ran out first) counts toward the all-time best, then a fresh run
+// starts for the new week.
+function checkWeeklyRollover(){
+  const wid = weekIdFor(new Date());
+  if(profile.weeklyWeekId !== wid){
+    if(profile.weeklyWeekId){
+      const finalTally = profile.weeklyStatus === 'active' ? profile.weeklyProgress : profile.weeklyScore;
+      profile.weeklyBest = Math.max(profile.weeklyBest || 0, finalTally || 0);
+    }
+    profile.weeklyWeekId = wid;
+    profile.weeklyProgress = 0;
+    profile.weeklyStatus = 'active';
+    profile.weeklyScore = 0;
+    saveProfile();
+  }
+}
+
+function renderWeeklyStage(){
+  const wid = weekIdFor(new Date());
+  const seq = getWeeklySequence(wid);
+
+  if(profile.weeklyStatus === 'active'){
+    const idx = profile.weeklyProgress;
+    const q = seq[idx];
+    weeklyStage.innerHTML = `
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="entry-no">quest ${idx + 1} of ${WEEKLY_LENGTH}</span>
+          <span class="cat-tag">${ICONS[q.c]}${CAT_LABEL[q.c]}</span>
+        </div>
+        <p class="quest-text">${q.t.toLowerCase()}</p>
+        <div class="ticket-bottom">
+          ${bootIcons(q.d)}
+          <span class="xp-tag">+${XP_BY_DIFF[q.d]} xp</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-skip" id="weeklySkipBtn">skip</button>
+          <button class="btn btn-complete" id="weeklyCompleteBtn">complete quest</button>
+        </div>
+        <p class="locked-note">skipping locks in a score of ${idx} for this week — no retries until reset.</p>
+      </div>
+    `;
+    document.getElementById('weeklySkipBtn').addEventListener('click', weeklySkip);
+    document.getElementById('weeklyCompleteBtn').addEventListener('click', weeklyComplete);
+  } else {
+    const cleared = profile.weeklyStatus === 'completed';
+    const isBest = profile.weeklyScore > 0 && profile.weeklyScore === profile.weeklyBest;
+    weeklyStage.innerHTML = `
+      <div class="ticket">
+        <p class="panel-label" style="margin-bottom:10px;">${cleared ? 'week cleared' : 'run locked in'}</p>
+        <p class="quest-text" style="margin-bottom:4px;">final score: ${profile.weeklyScore} / ${WEEKLY_LENGTH}</p>
+        <p class="locked-note" style="margin-top:0; text-align:left;">${isBest ? 'new personal best.' : 'personal best: ' + (profile.weeklyBest || 0) + '.'}</p>
+        <p class="locked-note" style="text-align:left;">come back after reset for a new run.</p>
+      </div>
+    `;
+  }
+}
+
+function weeklySkip(){
+  playSkip();
+  profile.weeklyStatus = 'failed';
+  profile.weeklyScore = profile.weeklyProgress;
+  profile.weeklyBest = Math.max(profile.weeklyBest || 0, profile.weeklyScore);
+  saveProfile();
+  renderWeeklyStage();
+}
+
+function weeklyComplete(){
+  const wid = weekIdFor(new Date());
+  const seq = getWeeklySequence(wid);
+  const q = seq[profile.weeklyProgress];
+  profile.xp += XP_BY_DIFF[q.d];
+  profile.totalCompleted += 1;
+  profile.weeklyProgress += 1;
+  playComplete();
+  if(profile.weeklyProgress >= WEEKLY_LENGTH){
+    profile.weeklyStatus = 'completed';
+    profile.weeklyScore = WEEKLY_LENGTH;
+    profile.weeklyBest = Math.max(profile.weeklyBest || 0, profile.weeklyScore);
+    profile.xp += WEEKLY_CLEAR_BONUS;
+  }
+  updateStats();
+  saveProfile();
+  renderWeeklyStage();
+}
+
+function buildChips(){
+  catChips.innerHTML = '';
+  Object.keys(CAT_LABEL).forEach(key => {
+    const chip = document.createElement('button');
+    chip.className = 'chip active';
+    chip.dataset.cat = key;
+    chip.innerHTML = ICONS[key] + '<span>' + CAT_LABEL[key] + '</span>';
+    chip.addEventListener('click', () => {
+      guardedFilterChange(() => {
+        playClick();
+        if(selectedCats.has(key)){
+          if(selectedCats.size > 1) selectedCats.delete(key);
+        } else {
+          selectedCats.add(key);
+        }
+        chip.classList.toggle('active', selectedCats.has(key));
+      });
+    });
+    catChips.appendChild(chip);
+  });
+
+  const diffs = [{key:'any', label:'any'},{key:'1', label:'short hike'},{key:'2', label:'trek'},{key:'3', label:'adventure'}];
+  diffRow.innerHTML = '';
+  diffs.forEach(dObj => {
+    const btn = document.createElement('button');
+    btn.className = 'diff-btn' + (dObj.key === 'any' ? ' active' : '');
+    btn.textContent = dObj.label;
+    btn.addEventListener('click', () => {
+      guardedFilterChange(() => {
+        playClick();
+        selectedDiff = dObj.key;
+        [...diffRow.children].forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    diffRow.appendChild(btn);
+  });
+
+  ageRow.innerHTML = '';
+  AGE_TIERS.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'diff-btn' + (a.key === 'any' ? ' active' : '');
+    btn.textContent = a.label;
+    btn.addEventListener('click', () => {
+      guardedFilterChange(() => {
+        playClick();
+        selectedAge = a.key;
+        [...ageRow.children].forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    ageRow.appendChild(btn);
+  });
+
+  rsSeeingDouble.addEventListener('click', () => {
+    guardedFilterChange(() => {
+      playClick();
+      rulesetSeeingDouble = !rulesetSeeingDouble;
+      rsSeeingDouble.classList.toggle('active', rulesetSeeingDouble);
+    });
+  });
+
+  rsModifiers.addEventListener('click', () => {
+    guardedFilterChange(() => {
+      playClick();
+      rulesetModifiers = !rulesetModifiers;
+      rsModifiers.classList.toggle('active', rulesetModifiers);
+    });
+  });
+
+  const timerOptions = [{key:'none', label:'no timer'},{key:'rush', label:'rush · 20m'},{key:'bullet', label:'bullet · 10m'}];
+  rulesetTimerRow.innerHTML = '';
+  timerOptions.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'diff-btn' + (opt.key === 'none' ? ' active' : '');
+    btn.textContent = opt.label;
+    btn.addEventListener('click', () => {
+      guardedFilterChange(() => {
+        playClick();
+        rulesetTimer = opt.key;
+        [...rulesetTimerRow.children].forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    rulesetTimerRow.appendChild(btn);
+  });
+}
+
+function setAgeMode(mode){
+  ageMode = mode;
+  ageModeUnder.classList.toggle('active', mode === 'hierarchical');
+  ageModeExact.classList.toggle('active', mode === 'exact');
+}
+ageModeUnder.addEventListener('click', () => { playClick(); setAgeMode('hierarchical'); });
+ageModeExact.addEventListener('click', () => { playClick(); setAgeMode('exact'); });
+
+function bootIcons(diff){
+  let html = '<div class="diff-marks">';
+  for(let i=1;i<=3;i++){
+    html += '<svg class="boot ' + (i<=diff ? 'filled':'empty') + '" viewBox="0 0 24 24" fill="none" stroke="' + (i<=diff ? 'var(--text-primary)' : 'var(--text-tertiary)') + '" stroke-width="2"><path d="M5 21h5l1-4h4l3 4h5v-2l-3-2v-4l-4-6H9L6 12v3L2 17v2z"/></svg>';
+  }
+  return html + '</div>';
+}
+
+// expedition's escalating difficulty: reuses the shared endlessStreak
+// counter (same one gauntlet reads for its "run" score) so level 1 is the
+// first quest of a fresh run, and each completion since the last skip
+// climbs a rung, capping at the hardest tier (3) since that's as far as
+// the difficulty scale goes.
+function currentExpeditionLevel(){
+  return Math.min(3, 1 + (profile.endlessStreak || 0));
+}
+
+function matchesFilters(q){
+  if(!selectedCats.has(q.c)) return false;
+  if(currentSubMode === 'mania'){
+    if(!q.quick) return false;
+  } else if(currentSubMode === 'expedition'){
+    if(q.d !== currentExpeditionLevel()) return false;
+  } else {
+    if(selectedDiff !== 'any' && String(q.d) !== selectedDiff) return false;
+    // the bullet ruleset (10-minute cap) requires the same "quick" quests
+    // mania relies on, regardless of which submode it's layered onto
+    if(rulesetTimer === 'bullet' && !q.quick) return false;
+  }
+  if(selectedAge !== 'any'){
+    if(ageMode === 'exact'){
+      if(q.age !== selectedAge) return false;
+    } else {
+      if(q.age > selectedAge) return false;
+    }
+  }
+  return true;
+}
+
+// the timer actually in effect for the current draw: mania's own forced
+// timer takes priority (it already implies its own quick-only filtering
+// above), otherwise whichever ruleset timer is selected, otherwise none.
+function activeTimerSeconds(){
+  if(currentSubMode === 'mania') return MANIA_SECONDS;
+  if(currentSubMode === 'expedition') return EXPEDITION_SECONDS;
+  if(rulesetTimer === 'rush') return RULESET_TIMER_SECONDS.rush;
+  if(rulesetTimer === 'bullet') return RULESET_TIMER_SECONDS.bullet;
+  return null;
+}
+
+// ends the current draw, regardless of submode or which rulesets are
+// layered on: in gauntlet this ends the run outright, otherwise it resets
+// the endless streak and draws again. shared by the ticket's skip button,
+// the seeing-double "skip both" link, and mania/timer expiry.
+function skipCurrentDraw(){
+  if(currentSubMode === 'gauntlet'){
+    playSkip();
+    endGauntletRun();
+    return;
+  }
+  resetEndlessStreak();
+  playSkip();
+  drawQuest();
+}
+
+function drawQuest(){
+  const pool = QUESTS.filter(q => matchesFilters(q) && q !== currentQuest);
+  const finalPool = pool.length ? pool : QUESTS.filter(matchesFilters);
+  if(!finalPool.length){
+    clearManiaTimer();
+    seeingDoubleChoices = null;
+    currentModifier = null;
+    stage.innerHTML = '<div class="empty-state">no quests match that combination. try widening your tags, age, or difficulty filters.</div>';
+    return;
+  }
+
+  // one modifier is rolled per draw (not per quest) — it applies to whatever
+  // you end up doing, so with seeing double both options carry the same one.
+  currentModifier = rulesetModifiers ? MODIFIERS[Math.floor(Math.random() * MODIFIERS.length)] : null;
+
+  if(rulesetSeeingDouble){
+    // seeing double: draw a pair and let the player pick one. the clock
+    // (if any) doesn't start until a pick is made — deliberating between
+    // two options shouldn't burn a rush/bullet/mania timer.
+    const qA = finalPool[Math.floor(Math.random() * finalPool.length)];
+    const restPool = finalPool.filter(q => q !== qA);
+    const qB = restPool.length ? restPool[Math.floor(Math.random() * restPool.length)] : qA;
+    seeingDoubleChoices = [qA, qB];
+    currentQuest = null;
+    questState = 'choosing';
+    renderSeeingDoubleChoice();
+    return;
+  }
+
+  currentQuest = finalPool[Math.floor(Math.random() * finalPool.length)];
+  profile.drawnCount += 1;
+  questState = 'drawn';
+  const timerSecs = activeTimerSeconds();
+  if(timerSecs !== null){
+    maniaTimeLeft = timerSecs;
+  }
+  renderTicket();
+  if(timerSecs !== null){
+    startManiaTimer();
+  }
+  saveProfile();
+}
+
+function renderSeeingDoubleChoice(){
+  const [qA, qB] = seeingDoubleChoices;
+  const modifierHtml = currentModifier ? `<p class="quest-modifier">+ ${currentModifier}</p>` : '';
+  const optionCard = (q, id, label) => `
+    <div class="ticket" style="margin-bottom:10px;">
+      <div class="ticket-top">
+        <span class="entry-no">${label}</span>
+        <span class="cat-tag">${ICONS[q.c]}${CAT_LABEL[q.c]}</span>
+      </div>
+      <p class="quest-text">${q.t.toLowerCase()}</p>
+      ${modifierHtml}
+      <div class="ticket-bottom">${bootIcons(q.d)}<span class="xp-tag">+${XP_BY_DIFF[q.d]} xp</span></div>
+      <div class="actions"><button class="btn btn-complete" id="${id}" style="flex:1">pick this one</button></div>
+    </div>
+  `;
+  stage.innerHTML = `
+    <p class="panel-label" style="text-align:center; margin-bottom:10px;">seeing double — pick one</p>
+    ${optionCard(qA, 'pickA', 'option a')}
+    ${optionCard(qB, 'pickB', 'option b')}
+    <div class="reset-row"><button class="reset-link" id="skipBothBtn">skip both</button></div>
+  `;
+  document.getElementById('pickA').addEventListener('click', () => pickSeeingDouble(qA));
+  document.getElementById('pickB').addEventListener('click', () => pickSeeingDouble(qB));
+  document.getElementById('skipBothBtn').addEventListener('click', skipCurrentDraw);
+}
+
+function pickSeeingDouble(q){
+  playClick();
+  seeingDoubleChoices = null;
+  currentQuest = q;
+  profile.drawnCount += 1;
+  questState = 'drawn';
+  const timerSecs = activeTimerSeconds();
+  if(timerSecs !== null){
+    maniaTimeLeft = timerSecs;
+  }
+  renderTicket();
+  if(timerSecs !== null){
+    startManiaTimer();
+  }
+  saveProfile();
+}
+
+function renderTicket(stampLabel){
+  const q = currentQuest;
+  const entryNo = String(profile.drawnCount).padStart(3, '0');
+  const expired = stampLabel === 'expired';
+  const done = stampLabel === 'complete';
+  const timerSecs = activeTimerSeconds();
+
+  let badges = '';
+  if(timerSecs !== null){
+    const m = Math.floor(maniaTimeLeft / 60);
+    const s = maniaTimeLeft % 60;
+    badges += `<span class="mania-timer" id="maniaTimer">${pad(m)}:${pad(s)}</span>`;
+  }
+  if(currentSubMode === 'gauntlet'){
+    badges += `<span class="xp-tag">run ${profile.endlessStreak || 0}</span>`;
+  }
+  if(currentSubMode === 'expedition'){
+    badges += `<span class="xp-tag">level ${currentExpeditionLevel()}/3</span>`;
+  }
+  badges += `<span class="xp-tag">+${XP_BY_DIFF[q.d]} xp</span>`;
+  if(currentModifier){
+    badges += `<span class="xp-tag">+${MODIFIER_BONUS_XP} xp bonus</span>`;
+  }
+  const bottomHtml = `${bootIcons(q.d)}<span class="ticket-badges">${badges}</span>`;
+  const modifierHtml = currentModifier ? `<p class="quest-modifier">+ ${currentModifier}</p>` : '';
+
+  const skipLabel = expired ? 'next quest' : 'skip';
+  const stampText = expired ? "time's up" : stampLabel;
+  // FIX (issue 2): once a quest is completed, the skip button must be
+  // disabled. Previously it stayed active after completion, so clicking
+  // "skip" post-completion would call resetEndlessStreak() and wipe out
+  // the streak point that was just earned by finishing the quest.
+  const skipDisabled = done;
+
+  stage.innerHTML = `
+    <div class="ticket">
+      <div class="ticket-top">
+        <span class="entry-no">entry no. ${entryNo}</span>
+        <span class="cat-tag">${ICONS[q.c]}${CAT_LABEL[q.c]}</span>
+      </div>
+      <p class="quest-text">${q.t.toLowerCase()}</p>
+      ${modifierHtml}
+      <div class="ticket-bottom">${bottomHtml}</div>
+      <div class="actions">
+        <button class="btn btn-skip" id="skipBtn" ${skipDisabled ? 'disabled' : ''}>${skipLabel}</button>
+        <button class="btn btn-complete" id="completeBtn" ${expired || done ? 'disabled' : ''}>complete quest</button>
+      </div>
+      ${stampLabel ? `<div class="stamp show">${stampText}</div>` : ''}
+    </div>
+  `;
+  document.getElementById('skipBtn').addEventListener('click', skipCurrentDraw);
+  document.getElementById('completeBtn').addEventListener('click', completeQuest);
+}
+
+function completeQuest(){
+  if(questState === 'done' || questState === 'expired') return;
+  const q = currentQuest;
+  profile.xp += XP_BY_DIFF[q.d];
+  if(currentModifier){
+    profile.xp += MODIFIER_BONUS_XP;
+  }
+  profile.totalCompleted += 1;
+  questState = 'done';
+  clearManiaTimer();
+  incrementEndlessStreak();
+  playComplete();
+  renderTicket('complete');
+  updateStats();
+  saveProfile();
+}
+
+function startManiaTimer(){
+  clearManiaTimer();
+  maniaInterval = setInterval(() => {
+    maniaTimeLeft -= 1;
+    if(maniaTimeLeft <= 0){
+      maniaTimeLeft = 0;
+      updateManiaTimerDisplay();
+      clearManiaTimer();
+      expireManiaQuest();
+      return;
+    }
+    updateManiaTimerDisplay();
+  }, 1000);
+}
+
+function clearManiaTimer(){
+  if(maniaInterval){
+    clearInterval(maniaInterval);
+    maniaInterval = null;
+  }
+}
+
+function updateManiaTimerDisplay(){
+  const el = document.getElementById('maniaTimer');
+  if(!el) return;
+  const m = Math.floor(maniaTimeLeft / 60);
+  const s = maniaTimeLeft % 60;
+  el.textContent = pad(m) + ':' + pad(s);
+  el.classList.toggle('warn', maniaTimeLeft <= 60);
+}
+
+function expireManiaQuest(){
+  if(questState !== 'drawn') return;
+  questState = 'expired';
+  // gauntlet + a timed ruleset (rush/bullet): running out the clock is a
+  // failure just like skipping, so it ends the run immediately rather than
+  // waiting for a "next quest" click.
+  if(currentSubMode === 'gauntlet'){
+    endGauntletRun();
+    return;
+  }
+  renderTicket('expired');
+}
+
+// gauntlet mode: the first skip ends the run outright. the streak reached
+// (profile.endlessStreak, shared with classic/mania so it reflects the true
+// consecutive-completion count regardless of which submode built it) becomes
+// the run's final score, compared against the all-time best, then reset.
+function endGauntletRun(){
+  const finalScore = profile.endlessStreak || 0;
+  profile.longestGauntletStreak = Math.max(profile.longestGauntletStreak || 0, finalScore);
+  resetEndlessStreak();
+  currentQuest = null;
+  questState = 'none';
+  renderGauntletOver(finalScore);
+}
+
+function renderGauntletOver(finalScore){
+  const best = profile.longestGauntletStreak || 0;
+  const isBest = finalScore > 0 && finalScore === best;
+  stage.innerHTML = `
+    <div class="ticket">
+      <p class="panel-label" style="margin-bottom:10px;">gauntlet over</p>
+      <p class="quest-text" style="margin-bottom:4px;">final score: ${finalScore}</p>
+      <p class="locked-note" style="margin-top:0; text-align:left;">${isBest ? 'new personal best.' : 'personal best: ' + best + '.'}</p>
+      <div class="actions" style="margin-top:18px;">
+        <button class="btn btn-complete" id="gauntletRestartBtn" style="flex:1">start new gauntlet</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('gauntletRestartBtn').addEventListener('click', () => { playDraw(); drawQuest(); });
+}
+
+// endless-mode streak: increments on every completed endless quest
+// (classic or mixed mania), resets to zero whenever a quest is skipped.
+function incrementEndlessStreak(){
+  profile.endlessStreak = (profile.endlessStreak || 0) + 1;
+  profile.longestEndlessStreak = Math.max(profile.longestEndlessStreak || 0, profile.endlessStreak);
+  updateStreakDisplay();
+}
+
+function resetEndlessStreak(){
+  profile.endlessStreak = 0;
+  updateStreakDisplay();
+  saveProfile();
+}
+
+function updateStreakDisplay(){
+  streakVal.textContent = profile.endlessStreak || 0;
+}
+
+function renderDailyTicket(){
+  const today = localDateStr(new Date());
+  const q = questForDate(today);
+  const completedToday = profile.lastDailyCompletedDate === today;
+  const dateLabel = new Date().toLocaleDateString(undefined, {weekday:'short', month:'short', day:'numeric'});
+
+  dailyStage.innerHTML = `
+    <div class="ticket">
+      <div class="ticket-top">
+        <span class="entry-no">${dateLabel}</span>
+        <span class="cat-tag">${ICONS[q.c]}${CAT_LABEL[q.c]}</span>
+      </div>
+      <p class="quest-text">${q.t.toLowerCase()}</p>
+      <div class="ticket-bottom">
+        ${bootIcons(q.d)}
+        <span class="xp-tag">+${XP_BY_DIFF[q.d]} xp</span>
+      </div>
+      <div class="actions">
+        <button class="btn btn-complete" id="dailyCompleteBtn" style="flex:1" ${completedToday ? 'disabled' : ''}>${completedToday ? 'completed' : 'complete quest'}</button>
+      </div>
+      ${completedToday ? '<div class="stamp show">complete</div>' : ''}
+      ${completedToday ? '<p class="locked-note">next order arrives at midnight.</p>' : '<p class="locked-note">this order cannot be skipped. miss the window and your streak resets to zero.</p>'}
+    </div>
+  `;
+  if(!completedToday){
+    document.getElementById('dailyCompleteBtn').addEventListener('click', completeDailyQuest);
+  }
+}
+
+// calendar-based "yesterday" calculation, consistent with checkDailyRollover
+// and safe across DST transitions.
+function completeDailyQuest(){
+  const now = new Date();
+  const today = localDateStr(now);
+  if(profile.lastDailyCompletedDate === today) return;
+  const q = questForDate(today);
+  profile.xp += XP_BY_DIFF[q.d];
+  profile.totalCompleted += 1;
+
+  const yesterday = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+  if(profile.lastDailyCompletedDate === yesterday){
+    profile.dailyStreak += 1;
+  } else {
+    profile.dailyStreak = 1;
+  }
+  profile.lastDailyCompletedDate = today;
+  profile.longestDailyStreak = Math.max(profile.longestDailyStreak, profile.dailyStreak);
+  playComplete();
+  renderDailyTicket();
+  updateStats();
+  saveProfile();
+}
+
+function tickCountdown(){
+  const now = new Date();
+  const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+  let diff = Math.max(0, nextMidnight - now);
+  const hrs = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  countdownTime.textContent = pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
+  if(diff <= 0){
+    checkDailyRollover();
+    renderDailyTicket();
+    updateStats();
+  }
+
+  const nextWeekStart = new Date(startOfWeek(now));
+  nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+  let wdiff = Math.max(0, nextWeekStart - now);
+  const days = Math.floor(wdiff / 86400000);
+  const whrs = Math.floor((wdiff % 86400000) / 3600000);
+  const wmins = Math.floor((wdiff % 3600000) / 60000);
+  const wsecs = Math.floor((wdiff % 60000) / 1000);
+  weeklyCountdownTime.textContent = days + 'd ' + pad(whrs) + ':' + pad(wmins) + ':' + pad(wsecs);
+  if(wdiff <= 0){
+    checkWeeklyRollover();
+    renderWeeklyStage();
+  }
+}
+
+function levelFromXp(xp){
+  return Math.floor(xp / 100) + 1;
+}
+
+function updateStats(){
+  document.getElementById('statStreak').textContent = profile.dailyStreak;
+  document.getElementById('statTotal').textContent = profile.totalCompleted;
+  const level = levelFromXp(profile.xp);
+  document.getElementById('statLevel').textContent = level;
+  const xpIntoLevel = profile.xp % 100;
+  document.getElementById('xpNow').textContent = xpIntoLevel + ' xp';
+  document.getElementById('xpNext').textContent = '100 xp';
+  document.getElementById('xpFill').style.width = xpIntoLevel + '%';
+
+  // FIX (issue 1): stamps now represent a rolling "punch card" of 10 instead
+  // of permanently capping out. Using ((n - 1) % 10) + 1 (rather than plain
+  // n % 10) means the 10th, 20th, 30th... completion still shows a fully lit
+  // card before the next card starts empty on completion 11, 21, 31... —
+  // avoiding the old glitch where n % 10 dropped straight to 0 lit dots
+  // right when the card should have read as full.
+  const strip = document.getElementById('stampsStrip');
+  strip.innerHTML = '';
+  const total = profile.totalCompleted;
+  const filled = total === 0 ? 0 : ((total - 1) % 10) + 1;
+  for(let i=0;i<10;i++){
+    const dot = document.createElement('div');
+    dot.className = 'stamp-dot' + (i < filled ? ' on' : '');
+    strip.appendChild(dot);
+  }
+  const cardsCompleted = Math.floor(total / 10);
+  const meta = document.getElementById('stampsMeta');
+  meta.textContent = cardsCompleted > 0 ? `${cardsCompleted} full card${cardsCompleted === 1 ? '' : 's'} logged` : '';
+
+  updateStreakDisplay();
+}
+
+async function saveProfile(){
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(profile), false);
+  } catch(e){
+    console.error('save failed', e);
+  }
+}
+
+async function loadProfile(){
+  try{
+    const result = await window.storage.get(STORAGE_KEY, false);
+    if(result && result.value){
+      profile = Object.assign(profile, JSON.parse(result.value));
+    }
+  } catch(e){
+    // no saved profile yet, use defaults
+  }
+  updateStats();
+}
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  const keepSound = profile.soundEnabled;
+  profile = {xp:0, dailyStreak:0, longestDailyStreak:0, totalCompleted:0, lastDailyCompletedDate:null, lastDailySeenDate:null, drawnCount:0, soundEnabled:keepSound, endlessStreak:0, longestEndlessStreak:0, longestGauntletStreak:0, weeklyWeekId:null, weeklyProgress:0, weeklyStatus:'active', weeklyScore:0, weeklyBest:0};
+  resetEndlessStage();
+  updateStats();
+  await saveProfile();
+  checkDailyRollover();
+  renderDailyTicket();
+  checkWeeklyRollover();
+  renderWeeklyStage();
+});
+
+drawBtn.addEventListener('click', () => { playDraw(); drawQuest(); });
+
+buildChips();
+loadProfile().then(() => {
+  updateSoundIcon();
+  checkDailyRollover();
+  checkWeeklyRollover();
+  // re-run updateStats() after checkDailyRollover so a streak reset that
+  // just happened is reflected immediately, instead of showing the stale
+  // pre-reset number until the next completion.
+  updateStats();
+  renderDailyTicket();
+  renderWeeklyStage();
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+});
+</script>
+</body>
+</html>
